@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Flashcards</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+<head>
+  <title>Flashcards App</title>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><%= link_to 'All Users', users_path %></li>
+      <li><%= link_to 'All Flashcards', flashcards_path %></li>
+    </ul>
+  </nav>
+  <%= yield %>
+</body>
 </html>

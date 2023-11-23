@@ -1,0 +1,11 @@
+<!-- app/views/flashcards/index.html.erb -->
+<h1>Your Flashcards</h1>
+
+<% @flashcards.each do |flashcard| %>
+  <div>
+    <h3><%= flashcard.term %></h3>
+    <p><%= flashcard.definition %></p>
+    <p><%= flashcard.translation %></p>
+    <img src="<%= flashcard.image_url %>" alt="<%= flashcard.term %> image">
+  </div>
+<% end %>

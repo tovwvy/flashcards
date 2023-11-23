@@ -1,0 +1,11 @@
+<h1>Welcome to Flashcards App</h1>
+
+<nav>
+  <ul>
+    <li><%= link_to 'All Users', users_path %></li>
+    <li><%= link_to 'All Flashcards', flashcards_path %></li>
+    <% if user_signed_in? %>
+      <li><%= link_to 'My Flashcards', my_flashcards_path %></li>
+    <% end %>
+  </ul>
+</nav>

@@ -1,0 +1,17 @@
+<!-- app/views/flashcards/_form.html.erb -->
+<%= form_with(model: @flashcard, local: true) do |form| %>
+  <!-- Додайте поля для введення флеш-картки, наприклад, термін та переклад -->
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term %>
+  </div>
+
+  <div class="field">
+    <%= form.label :translation %>
+    <%= form.text_field :translation %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Flashcard' %>
+  </div>
+<% end %>

@@ -1,2 +1,18 @@
-<h1>Flashcards#new</h1>
-<p>Find me in app/views/flashcards/new.html.erb</p>
+<!-- app/views/flashcards/new.html.erb -->
+<h1>Create a new flashcard</h1>
+
+<%= form_with(model: @flashcard, url: flashcards_path, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term %>
+  </div>
+
+  <div class="field">
+    <%= form.label :translation %>
+    <%= form.text_field :translation %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,11 +1,239 @@
-<h1>Welcome to Flashcards App</h1>
-
-<nav>
-  <ul>
-    <li><%= link_to 'All Users', users_path %></li>
-    <li><%= link_to 'All Flashcards', flashcards_path %></li>
+<!-- app/views/home/index.html.erb -->
+<% if controller_name != 'sessions' && controller_name != 'registrations' %>
+  <h1>
     <% if user_signed_in? %>
-      <li><%= link_to 'My Flashcards', my_flashcards_path %></li>
+      Welcome back, <%= current_user.email %>!
+    <% else %>
+      Menu
     <% end %>
+  </h1>
+<% end %>
+
+<!-- Tabs -->
+<div>
+  <ul>
+    <li><%= link_to 'Create Flashcard', flashcards_path %></li>
+    <li><%= link_to 'My Flashcards', my_flashcards_path %></li>
   </ul>
-</nav>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Flashcards App</title>
+  <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- інші ваші стилі та теги head -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #800080; /* Змінено на фіолетовий */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #800080;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    section {
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #800080;
+    }
+
+    .word p {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+      color: #800080;
+    }
+
+    .flashcards ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .flashcards li {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .flashcards .word {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .flashcards .translation {
+      color: #555;
+    }
+
+    .dictionary p {
+      line-height: 1.6;
+    }
+
+    footer ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      background-color: #800080;
+      color: #fff;
+      border-radius: 0 0 8px 8px;
+      margin-top: 20px;
+      padding: 10px;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Add styles for the table */
+    table {
+      width: 120%; /* Increase width by 0.2 (100% + 0.2 * 100%) */
+      margin: 20px -10% 0; /* Center the table with negative margin on top */
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: none; /* Remove borders */
+      padding: 30px 20px; /* Adjusted padding */
+      text-align: center;
+    }
+
+    th[colspan="3"] {
+      /* Styles for the word "Добре" in the center of the table */
+      font-size: 34px;
+      color: #800080;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    /* Styles for the "Flip" and "Continue Learning" buttons */
+    .button-container {
+      text-align: center; /* Align text in the center */
+      margin-top: 20px; /* Add margin to position the button container */
+    }
+
+    .btn-flip, .btn-continue {
+      background-color: #FF1493; /* Malonv color */
+      color: #fff; /* Text color */
+      display: inline-block; /* Make the buttons inline */
+      padding: 10px 20px; /* Add padding to the buttons */
+      font-size: 16px; /* Adjust font size */
+      margin-right: 10px; /* Add margin between buttons */
+      cursor: pointer; /* Change cursor to pointer on hover */
+      border: none; /* Remove border */
+      border-radius: 4px; /* Add border radius */
+    }
+
+    .btn-continue {
+      background-color: #00CED1; /* Dark turquoise color */
+      display: none; /* Initially hide the "Continue Learning" button */
+    }
+  </style>
+
+  <script>
+    // JavaScript code
+    document.addEventListener('DOMContentLoaded', function () {
+      var flipButton = document.querySelector('.btn-flip');
+      var continueButton = document.querySelector('.btn-continue');
+      var table = document.querySelector('table');
+
+      var flashcards = [
+        { word: 'Hello', translation: 'Привіт' },
+        { word: 'World', translation: 'Світ' },
+        { word: 'JavaScript', translation: 'Мова програмування' },
+        { word: 'is', translation: 'є' },
+        { word: 'awesome', translation: 'чудова' }
+      ];
+
+      var currentIndex = 0;
+
+      // Function to display the flashcard
+      function displayFlashcard() {
+        table.innerHTML = `
+          <tr>
+            <th colspan="3">${flashcards[currentIndex].word}</th>
+          </tr>
+          <tr>
+            <td>${flashcards[currentIndex].translation}</td>
+          </tr>
+        `;
+      }
+
+      // Event listener for the "Flip" button
+      flipButton.addEventListener('click', function () {
+        table.innerHTML = `
+          <tr>
+            <th colspan="3">${flashcards[currentIndex].translation}</th>
+          </tr>
+          <tr>
+            <td>${flashcards[currentIndex].word}</td>
+          </tr>
+        `;
+        flipButton.style.display = 'none';
+        continueButton.style.display = 'inline-block';
+      });
+
+      // Event listener for the "Continue Learning" button
+      continueButton.addEventListener('click', function () {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        displayFlashcard();
+        continueButton.style.display = 'none';
+        flipButton.style.display = 'inline-block';
+      });
+
+      // Display the first flashcard
+      displayFlashcard();
+    });
+  </script>
+</head>
+<body>
+
+  <main>
+    <section>
+      <!-- Add the table -->
+      <table>
+        <tr>
+          <th colspan="3">Добре</th>
+        </tr>
+        <!-- Additional rows can be added here if needed -->
+      </table>
+    </section>
+
+    <!-- Add the button container -->
+    <div class="button-container">
+      <!-- Add the "Flip" button -->
+      <button class="btn-flip">Flip</button>
+      <!-- Add the "Continue Learning" button with initial display set to none -->
+      <button class="btn-continue">Continue Learning</button>
+    </div>
+  </main>
+
+</body>
+</html>

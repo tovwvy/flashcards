@@ -1,0 +1,41 @@
+<!-- app/views/flashcards/new.html.erb -->
+<h2>Create a Flashcard</h2>
+
+<%= form_with(model: @flashcard, url: flashcards_path, method: :post) do |form| %>
+  <!-- Додайте поля для введення флеш-картки, наприклад, термін та переклад -->
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term %>
+  </div>
+
+  <div class="field">
+    <%= form.label :translation %>
+    <%= form.text_field :translation %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Flashcard' %>
+  </div>
+<% end %>
+<!-- app/views/flashcards/index.html.erb -->
+<h1>Your Flashcards</h1>
+
+<% @flashcards.each do |flashcard| %>
+  <div>
+    <p><strong>Term:</strong> <%= flashcard.term %></p>
+    <p><strong>Definition:</strong> <%= flashcard.definition %></p>
+  </div>
+<% end %>
+<!-- app/views/flashcards/index.html.erb -->
+<h1>Your Flashcards</h1>
+
+<% if @flashcards.any? %>
+  <% @flashcards.each do |flashcard| %>
+    <div>
+      <p><strong>Term:</strong> <%= flashcard.term %></p>
+      <p><strong>Definition:</strong> <%= flashcard.definition %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>No flashcards available.</p>
+<% end %>

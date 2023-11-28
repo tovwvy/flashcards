@@ -3,7 +3,20 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   def index
-    # Home page without mandatory authentication
+    @flashcards = Flashcard.all
+    @user_flashcards = current_user.flashcards if user_signed_in?
+    @word = Word.first
+  
+    if user_signed_in?
+      @user_flashcards = current_user.flashcards
+    else
+      @user_flashcards = []
+    end
+  end
+
+  def flip
+    @word = Word.find(params[:id])
+    render partial: 'flip'
   end
 
   def all_users
@@ -15,6 +28,6 @@ class HomeController < ApplicationController
   end
 
   def my_flashcards
-    @flashcards = current_user.flashcards
+    @user_flashcards = current_user.flashcards
   end
 end

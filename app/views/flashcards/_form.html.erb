@@ -1,6 +1,5 @@
-<!-- app/views/flashcards/_form.html.erb -->
+<!-- app/views/flashcards/new.html.erb або app/views/flashcards/_form.html.erb -->
 <%= form_with(model: @flashcard, local: true) do |form| %>
-  <!-- Додайте поля для введення флеш-картки, наприклад, термін та переклад -->
   <div class="field">
     <%= form.label :term %>
     <%= form.text_field :term %>
@@ -9,6 +8,16 @@
   <div class="field">
     <%= form.label :translation %>
     <%= form.text_field :translation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :learning %>
+    <%= form.check_box :learning %>
+  </div>
+
+  <div class="field">
+    <%= form.label :word_id %>
+    <%= form.collection_select :word_id, Word.all, :id, :name, prompt: 'Select a word (optional)' %>
   </div>
 
   <div class="actions">

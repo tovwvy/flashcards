@@ -1,17 +1,21 @@
-<h2>Edit Flashcard</h2>
-
-<%= form_with(model: @flashcard, local: true) do |form| %>
+<!-- app/views/flashcards/edit.html.erb -->
+<%= form_for @flashcard do |f| %>
   <div class="field">
-    <%= form.label :term %>
-    <%= form.text_field :term %>
+    <%= f.label :term %>
+    <%= f.text_field :term %>
   </div>
 
   <div class="field">
-    <%= form.label :translation %>
-    <%= form.text_field :translation %>
+    <%= f.label :translation %>
+    <%= f.text_field :translation %>
+  </div>
+
+  <div class="field">
+    <%= f.label :learning %>
+    <%= f.check_box :learning %>
   </div>
 
   <div class="actions">
-    <%= form.submit 'Update Flashcard' %>
+    <%= f.submit 'Update Flashcard' %>
   </div>
 <% end %>

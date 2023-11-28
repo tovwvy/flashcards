@@ -1,14 +1,10 @@
 class Flashcard < ApplicationRecord
   belongs_to :user
-end
-# app/models/flashcard.rb
+  belongs_to :word, optional: true
+  attribute :translation, :string
+  validates :learning, inclusion: { in: [true, false] }
 
-class Flashcard < ApplicationRecord
   def definition
-    OxfordDictionaries.get_definition(word)
+    # Ваш існуючий код для визначення, можливо, зазначте власні умови або залиште порожнім, якщо не потрібно
   end
-end
-# app/models/flashcard.rb
-class Flashcard < ApplicationRecord
-  belongs_to :word
 end

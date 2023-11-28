@@ -75,6 +75,8 @@ class FlashcardsController < ApplicationController
   def flashcard_params
     params.require(:flashcard).permit(:term, :translation, :learning, :word_id)
   end
+  
+  
 
   def load_flashcard_and_definition
     @flashcard = Flashcard.find(params[:id])

@@ -1,165 +1,3 @@
-<% if controller_name != 'sessions' && controller_name != 'registrations' %>
-  <h1>
-    <% if user_signed_in? %>
-      Welcome back, <%= current_user.email %>!
-    <% else %>
-      Menu
-    <% end %>
-  </h1>
-<% end %>
-
-<!-- Tabs -->
-<div>
-  <ul>
-    <li><%= link_to 'Create Flashcard', flashcards_path %></li>
-    <li><%= link_to 'My Flashcards', my_flashcards_path %></li>
-  </ul>
-</div>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Your Flashcards App</title>
-  <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <!-- інші ваші стилі та теги head -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #800080; /* Змінено на фіолетовий */
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #800080;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    section {
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      color: #800080;
-    }
-
-    .word p {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
-      color: #800080;
-    }
-
-    .flashcards ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .flashcards li {
-      border: 1px solid #ddd;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 4px;
-    }
-
-    .flashcards .word {
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .flashcards .translation {
-      color: #555;
-    }
-
-    .dictionary p {
-      line-height: 1.6;
-    }
-
-    footer ul {
-      list-style-type: none;
-      padding: 0;
-      display: flex;
-      justify-content: space-between;
-      background-color: #800080;
-      color: #fff;
-      border-radius: 0 0 8px 8px;
-      margin-top: 20px;
-      padding: 10px;
-    }
-
-    footer a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    <!-- Styles for the table -->
-    <style>
-      table {
-        width: 120%;
-        margin: 20px -10% 0;
-        border-collapse: collapse;
-      }
-    
-      th, td {
-        border: none;
-        padding: 30px 20px;
-        text-align: center;
-      }
-    
-      th[colspan="3"] {
-        font-size: 34px;
-        color: #800080;
-        text-align: center;
-        vertical-align: top;
-      }
-    
-      .button-container {
-        text-align: center;
-        margin-top: 20px;
-      }
-    
-      .btn-flip, .btn-continue {
-        background-color: #FF1493;
-        color: #fff;
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        margin-right: 10px;
-        cursor: pointer;
-        border: none;
-        border-radius: 4px;
-      }
-    
-      .btn-continue {
-        background-color: #00CED1;
-        display: none;
-      }
-    </style>
-    
-    <!-- app/views/home/index.html.erb -->
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- app/views/home/index.html.erb -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,6 +7,7 @@
   <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
+    /* Стилі для тіла і заголовку сторінки */
     body {
       font-family: Arial, sans-serif;
       background-color: #343a40; /* Змінено на темний сірий фон */
@@ -182,6 +21,7 @@
       padding: 20px;
     }
 
+    /* Стилі для таблиці та кнопок */
     .table-responsive {
       max-width: 800px;
       margin: 20px auto;
@@ -222,7 +62,23 @@
 
 <body>
 
-  <h1 class="text-white">Flashcards</h1>
+  <% if controller_name != 'sessions' && controller_name != 'registrations' %>
+    <h1>
+      <% if user_signed_in? %>
+        Welcome back, <%= current_user.email %>!
+      <% else %>
+        Menu
+      <% end %>
+    </h1>
+  <% end %>
+
+  <!-- Tabs -->
+  <div>
+    <ul>
+      <li><%= link_to 'Create Flashcard', flashcards_path %></li>
+      <li><%= link_to 'My Flashcards', my_flashcards_path %></li>
+    </ul>
+  </div>
 
   <div class="table-responsive">
     <table class="table table-dark">
@@ -264,8 +120,7 @@
             <td><strong>Термін:</strong> <%= flashcard.term %></td>
             <td class="translation"><strong>Переклад:</strong> <%= flashcard.translation %></td>
             <td>
-            <%= link_to 'Показати', flashcard_path(flashcard, word: flashcard.term), class: 'btn btn-info' %>
-
+              <%= link_to 'Показати', flashcard_path(flashcard, word: flashcard.term), class: 'btn btn-info' %>
               <%= link_to 'Редагувати', edit_flashcard_path(flashcard), class: 'btn btn-warning' %>
               <%= link_to 'Видалити', flashcard, method: :delete, data: { confirm: 'Ви впевнені?' }, class: 'btn btn-danger' %>
             </td>
@@ -281,54 +136,50 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var flashcardRows = document.querySelectorAll('.flashcard-row');
-      var currentIndex = 0;
+  document.addEventListener('DOMContentLoaded', function () {
+    var flashcardRows = document.querySelectorAll('.flashcard-row');
+    var currentIndex = 0;
 
-      function showFlashcard(index) {
-        flashcardRows.forEach(function (row, i) {
-          row.style.display = i === index ? 'table-row' : 'none';
-        });
+    function showFlashcard(index) {
+      flashcardRows.forEach(function (row, i) {
+        row.style.display = i === index ? 'table-row' : 'none';
+      });
+    }
+
+    showFlashcard(currentIndex);
+
+    var flipButton = document.getElementById('flip');
+    var continueButton = document.getElementById('continue-learning');
+
+    flipButton.addEventListener('click', function () {
+      var isFlipped = flashcardRows[currentIndex].dataset.flipped === 'true';
+
+      if (isFlipped) {
+        flashcardRows[currentIndex].querySelector('.term').style.display = 'block';
+        flashcardRows[currentIndex].querySelector('.translation').style.display = 'none';
+        flipButton.innerHTML = 'Flip';
+      } else {
+        flashcardRows[currentIndex].querySelector('.term').style.display = 'none';
+        flashcardRows[currentIndex].querySelector('.translation').style.display = 'block';
+        flipButton.innerHTML = 'Continue Learning';
       }
 
-      showFlashcard(currentIndex);
-
-      var flipButton = document.getElementById('flip');
-      var continueButton = document.getElementById('continue-learning');
-
-      flipButton.addEventListener('click', function () {
-        var isFlipped = flashcardRows[currentIndex].dataset.flipped === 'true';
-
-        if (isFlipped) {
-          flashcardRows[currentIndex].querySelector('.term').style.display = 'block';
-          flashcardRows[currentIndex].querySelector('.translation').style.display = 'none';
-          flipButton.innerHTML = 'Flip';
-        } else {
-          flashcardRows[currentIndex].querySelector('.term').style.display = 'none';
-          flashcardRows[currentIndex].querySelector('.translation').style.display = 'block';
-          flipButton.innerHTML = 'Continue Learning';
-        }
-
-        flashcardRows[currentIndex].dataset.flipped = isFlipped ? 'false' : 'true';
-        continueButton.style.display = 'inline-block';
-      });
-
-      continueButton.addEventListener('click', function () {
-        flashcardRows[currentIndex].remove();
-
-        if (currentIndex + 1 < flashcardRows.length) {
-          currentIndex++;
-          showFlashcard(currentIndex);
-          continueButton.style.display = 'none';
-        } else {
-          alert('You have completed all flashcards.');
-          flipButton.style.display = 'none';
-          continueButton.style.display = 'none';
-        }
-      });
+      flashcardRows[currentIndex].dataset.flipped = isFlipped ? 'false' : 'true';
+      continueButton.style.display = 'inline-block';
     });
-  </script>
 
-</body>
+    continueButton.addEventListener('click', function () {
+      flashcardRows[currentIndex].remove();
 
-</html>
+      if (currentIndex + 1 < flashcardRows.length) {
+        currentIndex++;
+        showFlashcard(currentIndex);
+        continueButton.style.display = 'none';
+      } else {
+        alert('You have completed all flashcards.');
+        flipButton.style.display = 'none';
+        continueButton.style.display = 'none';
+      }
+    });
+  });
+</script>

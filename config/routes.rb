@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'signup' }
 
-  resources :flashcards
+  resources :flashcards, only: [:new, :create, :index, :show, :edit, :update, :destroy]
   get 'home/index', to: 'home#index', as: 'home_index'
   get 'home/all_users', to: 'home#all_users', as: 'all_users'
   get 'home/all_flashcards', to: 'home#all_flashcards', as: 'home_all_flashcards'
@@ -19,4 +19,5 @@ Rails.application.routes.draw do
 
   # Збереження решти маршрутів як є
   get '/flip/:id', to: 'home#flip', as: :flip_home
+  
 end

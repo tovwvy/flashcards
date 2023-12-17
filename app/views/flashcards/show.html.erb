@@ -1,8 +1,10 @@
-<div>
-  <h1><%= @flashcard.term %></h1>
-  <p><strong>Definition:</strong> <%= @flashcard.definition %></p>
-  <p><strong>Translation:</strong> <%= @flashcard.translation %></p>
-
- 
- 
-</div>
+<h3>Definitions:</h3>
+<% if @definition.is_a?(Array) %>
+  <ul>
+    <% @definition.each do |def_entry| %>
+      <li><%= def_entry['definition'] %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><%= @definition %></p>
+<% end %>

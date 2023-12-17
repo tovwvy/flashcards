@@ -6,6 +6,7 @@ class FlashcardsController < ApplicationController
   before_action :set_flashcard, only: [:show, :edit, :update, :destroy]
 
   def index
+    @flashcards = Flashcard.all
     @flashcards = current_user.flashcards
     puts "DEBUG: #{@flashcards.inspect}"
   end
@@ -22,8 +23,10 @@ class FlashcardsController < ApplicationController
   end
 
   def show
-    load_flashcard_and_definition
+    @flashcard = Flashcard.find(params[:id])
+    @definition = fetch_definition(@flashcard.term) # Використовуйте метод fetch_definition замість get_definition
   end
+  
 
   def new
     @flashcard = Flashcard.new
@@ -49,17 +52,30 @@ class FlashcardsController < ApplicationController
     end
   end
 
-  def edit
-    # Use the existing template for the edit form
-  end
+# app/controllers/flashcards_controller.rb
+def edit
+  # Use the existing template for the edit form
+  puts "DEBUG: #{@flashcard.inspect}"
+end
 
-  def update
-    if @flashcard.update(flashcard_params)
-      redirect_to flashcards_path, notice: 'Flashcard was successfully updated.'
-    else
-      render :edit
-    end
+
+ # app/controllers/flashcards_controller.rb
+ def update
+  puts "Term: #{flashcard_params[:term]}"
+  puts "Translation: #{flashcard_params[:translation]}"
+  puts "Learning: #{flashcard_params[:learning]}"
+  
+  if @flashcard.update(flashcard_params)
+    redirect_to flashcards_path, notice: 'Flashcard was successfully updated.'
+  else
+    puts "Errors: #{@flashcard.errors.full_messages}"
+    render :edit
   end
+end
+
+
+
+  
 
   def destroy
     @flashcard.destroy

@@ -80,106 +80,179 @@
     </ul>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-dark">
-      <thead>
-        <tr>
-          <th scope="col">Term</th>
-          <th scope="col">Translation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @flashcards.each do |flashcard| %>
-          <tr class="flashcard-row" data-flashcard-id="<%= flashcard.id %>" data-flipped="false">
-            <td class="term"><%= flashcard.term %></td>
-            <td class="translation hidden"><%= flashcard.translation %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <!DOCTYPE html>
+<html lang="en">
 
-  <div class="button-container">
-    <button id="flip" class="btn btn-primary">Flip</button>
-    <button id="continue-learning" class="btn btn-success hidden">Continue Learning</button>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <!-- Код для відображення флеш-карток -->
-  <div class="flashcards">
-    <table>
-      <thead>
-        <tr>
-          <th>Термін</th>
-          <th>Переклад</th>
-          <th>Дії</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @flashcards.each do |flashcard| %>
-          <tr>
-            <td><strong>Термін:</strong> <%= flashcard.term %></td>
-            <td class="translation"><strong>Переклад:</strong> <%= flashcard.translation %></td>
-            <td>
-              <%= link_to 'Показати', flashcard_path(flashcard, word: flashcard.term), class: 'btn btn-info' %>
-              <%= link_to 'Редагувати', edit_flashcard_path(flashcard), class: 'btn btn-warning' %>
-              <%= link_to 'Видалити', flashcard, method: :delete, data: { confirm: 'Ви впевнені?' }, class: 'btn btn-danger' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="button-container">
-    <button id="flip" class="btn btn-primary">Flip</button>
-    <button id="continue-learning" class="btn btn-success hidden">Continue Learning</button>
-  </div>
-
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var flashcardRows = document.querySelectorAll('.flashcard-row');
-    var currentIndex = 0;
-
-    function showFlashcard(index) {
-      flashcardRows.forEach(function (row, i) {
-        row.style.display = i === index ? 'table-row' : 'none';
-      });
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcards</title>
+  <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    /* Стилі для тіла і заголовку сторінки */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #343a40; /* Змінено на темний сірий фон */
+      color: #fff;
+      margin: 0;
+      padding: 0;
     }
 
-    showFlashcard(currentIndex);
+    h1 {
+      text-align: center;
+      padding: 20px;
+    }
 
-    var flipButton = document.getElementById('flip');
-    var continueButton = document.getElementById('continue-learning');
+    /* Стилі для таблиці та кнопок */
+    .table-responsive {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-    flipButton.addEventListener('click', function () {
-      var isFlipped = flashcardRows[currentIndex].dataset.flipped === 'true';
+    table {
+      width: 100%;
+      margin-bottom: 0;
+      border-collapse: collapse;
+      background-color: #343a40; /* Змінено на темний сірий фон таблиці */
+      color: #fff;
+    }
 
-      if (isFlipped) {
-        flashcardRows[currentIndex].querySelector('.term').style.display = 'block';
-        flashcardRows[currentIndex].querySelector('.translation').style.display = 'none';
-        flipButton.innerHTML = 'Flip';
-      } else {
-        flashcardRows[currentIndex].querySelector('.term').style.display = 'none';
-        flashcardRows[currentIndex].querySelector('.translation').style.display = 'block';
-        flipButton.innerHTML = 'Continue Learning';
-      }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+    }
 
-      flashcardRows[currentIndex].dataset.flipped = isFlipped ? 'false' : 'true';
-      continueButton.style.display = 'inline-block';
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      margin-right: 10px;
+    }
+
+    /* Стилі для показу/схову елементів */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Таблиця для відображення флеш-карток -->
+<div class="flashcards" style="position: relative;">
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Term</th>
+        <th scope="col">Translation</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <!-- ... -->
+    <tbody>
+      <% @flashcards.each do |flashcard| %>
+        <tr>
+          <td class="term"><strong>Term:</strong> <%= flashcard.term %></td>
+          <td class="translation hidden"><strong>Translation:</strong> <%= flashcard.translation %></td>
+          <td>
+            <!-- Кнопки розміщені справа від кожного рядка таблиці -->
+            <div class="button-container" style="position: absolute; top: 0; right: 0; margin-top: 20px;">
+              <%= link_to 'Show', flashcard_path(flashcard, word: flashcard.term), class: 'btn btn-info' %>
+              <%= link_to 'Edit', edit_flashcard_path(flashcard), class: 'btn btn-warning' %>
+              <%= link_to 'Delete', flashcard, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <!-- ... -->
+    
+  </table>
+</div>
+
+
+<div class="button-container">
+  <button id="flip" class="btn btn-primary">Flip</button>
+  <button id="next" class="btn btn-success hidden">Next</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var flashcardRows = document.querySelectorAll('.flashcards tbody tr');
+  var currentIndex = 0;
+
+  function showFlashcard(index) {
+    flashcardRows.forEach(function (row, i) {
+      row.style.display = i === index ? 'table-row' : 'none';
     });
+  }
 
-    continueButton.addEventListener('click', function () {
-      flashcardRows[currentIndex].remove();
+  showFlashcard(currentIndex);
+
+  var flipButton = document.getElementById('flip');
+  var nextButton = document.getElementById('next');
+
+  flipButton.addEventListener('click', function () {
+    console.log('currentIndex:', currentIndex);
+    console.log('flashcardRows[currentIndex]:', flashcardRows[currentIndex]);
+
+    var termElement = flashcardRows[currentIndex].querySelector('.term');
+    var translationElement = flashcardRows[currentIndex].querySelector('.translation');
+
+    if (termElement && translationElement) {
+        var isFlipped = translationElement.classList.contains('hidden');
+
+        if (isFlipped) {
+            termElement.classList.remove('hidden');
+            translationElement.classList.add('hidden');
+            flipButton.innerHTML = 'Flip';
+        } else {
+            termElement.classList.add('hidden');
+            // Виправлено, щоб отримати текст з .translation.hidden
+            translationElement = flashcardRows[currentIndex].querySelector('.translation.hidden');
+            translationElement.classList.remove('hidden');
+            flipButton.innerHTML = 'Next';
+        }
+
+        nextButton.classList.remove('hidden');
+    } else {
+        console.error('Required elements not found in the current row.');
+    }
+});
+
+
+  nextButton.addEventListener('click', function () {
+    var currentRow = flashcardRows[currentIndex];
+
+    if (currentRow) {
+      currentRow.remove();
 
       if (currentIndex + 1 < flashcardRows.length) {
         currentIndex++;
         showFlashcard(currentIndex);
-        continueButton.style.display = 'none';
+        nextButton.classList.add('hidden');
       } else {
         alert('You have completed all flashcards.');
-        flipButton.style.display = 'none';
-        continueButton.style.display = 'none';
+        flipButton.classList.add('hidden');
+        nextButton.classList.add('hidden');
       }
-    });
+    } else {
+      console.error('Current row not found.');
+    }
   });
+});
+
 </script>
+
+</body>
+
+</html>

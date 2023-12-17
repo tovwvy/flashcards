@@ -7,9 +7,11 @@ gem "rails", "~> 7.1.2"
 gem 'httparty'
 gem 'http'
 
+gem 'rest-client'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
+gem 'dotenv-rails', groups: [:development, :test]
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"

@@ -7,6 +7,7 @@ class CreateFlashcards < ActiveRecord::Migration[6.1]
       t.string :translation
       t.string :image_url
       t.references :user, null: false, foreign_key: true
+      t.references :word, foreign_key: true
 
       t.timestamps
     end

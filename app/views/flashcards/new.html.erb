@@ -19,9 +19,12 @@
     <%= form.collection_select :word_id, Word.all, :id, :word_en, prompt: 'Select a word (optional)' %>
   </div>
 
-  <div class="actions">
-    <%= form.submit 'Create Flashcard' %>
-  </div>
+  <!-- Додайте блок коду для визначення -->
+  <% if @definition.present? %>
+    <div class="field">
+      <%= form.hidden_field :definition, value: @definition %>
+    </div>
+  <% end %>
 
   <!-- Код для відображення визначення -->
   <% if @definition.present? %>
@@ -30,4 +33,8 @@
       <%= form.text_field :definition, value: @definition, readonly: true %>
     </div>
   <% end %>
+
+  <div class="actions">
+    <%= form.submit 'Create Flashcard' %>
+  </div>
 <% end %>

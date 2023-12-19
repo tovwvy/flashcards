@@ -1,2 +1,10 @@
-<h1>Flashcards#show</h1>
-<p>Find me in app/views/flashcards/show.html.erb</p>
+<h3>Definitions:</h3>
+<% if @definition.is_a?(Array) %>
+  <ul>
+    <% @definition.each do |def_entry| %>
+      <li><%= def_entry['definition'] %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><%= @definition %></p>
+<% end %>

@@ -1,0 +1,35 @@
+<%= form_with(model: @flashcard, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term %>
+  </div>
+
+  <div class="field">
+    <%= form.label :translation %>
+    <%= form.text_field :translation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :learning %>
+    <%= form.check_box :learning %>
+  </div>
+
+  <div class="field"  >
+    <%= form.label :word_id %>
+    <%= form.collection_select :word_id, Word.all, :id, :word_en, prompt: 'Select a word (optional)' %>
+
+
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Create Flashcard' %>
+  </div>
+
+  <!-- Код для відображення визначення -->
+  <% if @definition.present? %>
+    <div class="field">
+      <%= form.label :definition, 'Definition' %>
+      <%= form.text_field :definition, value: @definition, readonly: true %>
+    </div>
+  <% end %>
+<% end %>

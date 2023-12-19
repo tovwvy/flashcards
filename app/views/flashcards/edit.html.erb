@@ -1,2 +1,27 @@
-<h1>Flashcards#edit</h1>
-<p>Find me in app/views/flashcards/edit.html.erb</p>
+<%= form_with(model: @flashcard, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term %>
+  </div>
+
+  <div class="field">
+    <%= form.label :translation %>
+    <%= form.text_field :translation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :learning %>
+    <%= form.check_box :learning %>
+  </div>
+
+  <% if @definition.present? %>
+    <div class="field">
+      <%= form.label :definition, 'Definition' %>
+      <%= form.text_field :definition, value: @definition, readonly: true %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit 'Update Flashcard' %>
+  </div>
+<% end %>

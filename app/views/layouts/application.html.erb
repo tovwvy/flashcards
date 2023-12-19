@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Flashcards App</title>
+  <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- інші ваші стилі та теги head -->
 </head>
-<body>
-  <nav>
-    <ul>
-      <li><%= link_to 'All Users', users_path %></li>
-      <li><%= link_to 'All Flashcards', flashcards_path %></li>
+<body style="background-color: #800080;">
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #800080;">
+  <a class="navbar-brand" href="<%= root_path %>" style="color: #000000;">Word Wings</a>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <!-- Забрав "All Flashcards" і "Flashcards" -->
     </ul>
-  </nav>
+
+    <div class="form-inline my-2 my-lg-0">
+      <% if user_signed_in? %>
+        <p class="text-right mr-2" style="color: #fff;">Welcome <%= current_user.email %></p>
+        <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
+      <% else %>
+        <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-light btn-sm', style: 'background-color: #4B0082; color: #fff;' %>
+        <%= link_to 'Login', new_user_session_path, class: 'btn btn-light btn-sm ml-2', style: 'background-color: #FF1493; color: #fff;' %>
+      <% end %>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid mt-2">
+  <!-- Ваш інший вміст тут -->
   <%= yield %>
+</div>
+
+<!-- Ваш інший вміст тут -->
+
 </body>
 </html>

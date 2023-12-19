@@ -1,11 +1,142 @@
 <!-- app/views/home/my_flashcards.html.erb -->
-<h1>My Flashcards</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<% @flashcards.each do |flashcard| %>
-  <div>
-    <h3><%= flashcard.term %></h3>
-    <p><%= flashcard.definition %></p>
-    <p><%= flashcard.translation %></p>
-    <img src="<%= flashcard.image_url %>" alt="<%= flashcard.term %> image">
+<head>
+  <meta charset="UTF-8">
+  <title>My Flashcards</title>
+  <!-- Додайте посилання на Bootstrap CSS в ваш тег head -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #343a40; /* Змінено на темний сірий фон */
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .table-responsive {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      margin-bottom: 0;
+      border-collapse: collapse;
+      background-color: #343a40; /* Змінено на темний сірий фон таблиці */
+      color: #fff;
+    }
+
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      margin-right: 10px;
+    }
+
+    /* Стилі для показу/схову елементів */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="text-white">My Flashcards</h1>
+
+  <div class="table-responsive">
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Term</th>
+          <th scope="col">Translation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user_flashcards.each do |flashcard| %>
+          <tr class="flashcard-row" data-flashcard-id="<%= flashcard.id %>" data-flipped="false">
+            <td class="term"><%= flashcard.term %></td>
+            <td class="translation hidden"><%= flashcard.translation %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-<% end %>
+
+  <div class="button-container">
+    <button id="flip" class="btn btn-primary">Flip</button>
+    <button id="continue-learning" class="btn btn-success hidden">Continue Learning</button>
+  </div>
+
+  <!-- Підключення Bootstrap та вашого стилю зверху (ви можете вже мати це у вашому коді) -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var flashcardRows = document.querySelectorAll('.flashcard-row');
+    var currentIndex = 0;
+
+    function showFlashcard(index) {
+      flashcardRows.forEach(function (row, i) {
+        var isFlipped = row.dataset.flipped === 'true';
+
+        // Toggle visibility based on the current state
+        row.querySelector('.term').style.display = isFlipped ? 'none' : 'block';
+        row.querySelector('.translation').style.display = isFlipped ? 'block' : 'none';
+      });
+    }
+
+    showFlashcard(currentIndex);
+
+    var flipButton = document.getElementById('flip');
+    var continueButton = document.getElementById('continue-learning');
+
+    flipButton.addEventListener('click', function () {
+      var isFlipped = flashcardRows[currentIndex].dataset.flipped === 'true';
+
+      // Toggle visibility based on the current state
+      flashcardRows[currentIndex].querySelector('.term').style.display = isFlipped ? 'block' : 'none';
+      flashcardRows[currentIndex].querySelector('.translation').style.display = isFlipped ? 'none' : 'block';
+
+      flashcardRows[currentIndex].dataset.flipped = isFlipped ? 'false' : 'true';
+      continueButton.style.display = 'inline-block';
+
+      // Update the button text
+      flipButton.innerHTML = isFlipped ? 'Flip' : 'Continue Learning';
+    });
+
+    continueButton.addEventListener('click', function () {
+      flashcardRows[currentIndex].remove();
+
+      if (currentIndex + 1 < flashcardRows.length) {
+        currentIndex++;
+        showFlashcard(currentIndex);
+        continueButton.style.display = 'none';
+      } else {
+        alert('You have completed all flashcards.');
+        flipButton.style.display = 'none';
+        continueButton.style.display = 'none';
+      }
+    });
+  });
+</script>
+</body>
+</html>
